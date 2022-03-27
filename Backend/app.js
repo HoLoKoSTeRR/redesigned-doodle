@@ -1,19 +1,28 @@
-/* eslint-disable no-unused-expressions */
 /* eslint-disable no-unused-vars */
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
+const localtunnel = require("localtunnel");
+
 const db = require("./db/db");
 const header_middleware = require("./middlewares/header");
-
 const postRouter = require("./Routes/post");
 const userRoutes = require("./Routes/user");
 const profileRoutes = require("./Routes/profile");
-const localtunnel = require("localtunnel");
 
 const app = express();
 
 const PORT = process.env.PORT || 3001;
+
+// set up rate limiter: maximum of five requests per minute
+var RateLimit = require('express-rate-limit');
+var limiter =  RateLimit({
+  windowMs: 1*60*1000, // 1 minute
+  max: 5
+});
+
+// apply rate limiter to all requests
+app.use(limiter);
 
 app.use(express.json());
 app.use(header_middleware);
@@ -30,11 +39,7 @@ app.get("/test", (req, res) => {
 
 app.listen(PORT, async (req, res) => {
   const tunnel = await localtunnel({ port: PORT });
-  tunnel.url;
   console.log(tunnel.url);
-  tunnel.on("close", () => {
-    // tunnels are closed
-  });
   app.get("/", (req, res) => {
     res.send(tunnel.url);
   });

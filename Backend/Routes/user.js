@@ -13,7 +13,7 @@ router.post("/signup", (req, res, next) => {
         password: hash
       });
 
-      User.findOne({email:req.body.email}).then(user1=>{
+      User.findOne({email:{$eq:req.body.email}}).then(user1=>{
         if(user1){
           return res.status(401).json({
             message: "User Already Exist"
@@ -45,7 +45,7 @@ router.post("/signup", (req, res, next) => {
   router.post("/login", (req, res, next) => {
     let fetchedUser;
   
-    User.findOne({email:req.body.email}).then(user=>{
+    User.findOne({email:{$eq:req.body.email}}).then(user=>{
       if(!user){
         return res.status(401).json({
           message: "Auth failed no such user"
@@ -62,7 +62,7 @@ router.post("/signup", (req, res, next) => {
       }
       const token = jwt.sign(
         { email: fetchedUser.email, userId: fetchedUser._id },
-        "blogapp",
+        process.env.JWT_KEY,
         { expiresIn: "1h" }
       );
       res.status(200).json({
