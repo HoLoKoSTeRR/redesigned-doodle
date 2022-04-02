@@ -14,17 +14,19 @@
     "jquery": "^3.5.1",
     "moment": "^2.29.0",
     "react": "^16.13.1",
+    "react-admin": "^3.19.10",
     "react-dom": "^16.13.1",
     "react-hook-form": "^7.27.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "yup": "^0.32.11"
   },
+  "devDependencies": {
+    "serve": "^13.0.2"
+  },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "build": "react-scripts build"
   },
   "eslintConfig": {
     "extends": "react-app"
