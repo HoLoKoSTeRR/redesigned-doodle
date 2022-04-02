@@ -45,13 +45,19 @@ router.post("",
 checkAuth,
     multer({ storage: storage }).single("image"),
     (req, res, next) => {
+        let imagePath;
         console.log(req.body)
         const url = req.protocol + "://" + req.get("host")
         console.log(url)
+        if (req.file?.filename) {
+            imagePath = url + "/images/" + req.file.filename;
+          } else {
+            imagePath = url + "/images/background.jpg";
+          }
         const post = new Post({
             title: req.body.title,
             content: req.body.content,
-            imagePath: url + "/images/" + req.file.filename,
+            imagePath: imagePath,
             creator: req.userData.userId,
             postDate: req.body.postDate,
         })
