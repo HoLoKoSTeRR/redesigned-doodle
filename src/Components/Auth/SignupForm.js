@@ -87,7 +87,6 @@ const SignupForm = () => {
           email: "",
           password: "",
           rep_password: "",
-          phone: "",
           acceptedTerms: false,
         }}
         validationSchema={Yup.object({
@@ -104,10 +103,6 @@ const SignupForm = () => {
           rep_password: Yup.string()
             .oneOf([Yup.ref("password"), null], "Passwords must match")
             .required("Please confirm your password"),
-          phone: Yup.string()
-            .matches(/^\d{3}\s*-*\d{3}\s*-*\d{4}$/, "Phone number is not valid")
-            .required("Phone number is required"),
-
           acceptedTerms: Yup.boolean()
             .required("Required")
             .oneOf([true], "You must accept the terms and conditions."),
@@ -139,14 +134,6 @@ const SignupForm = () => {
             name="rep_password"
             type="password"
             placeholder="Confirm Password"
-            handleChange={handleChange}
-            handleBlur={handleBlur}
-          />
-          <TextInput
-            label="Phone Number"
-            name="phone"
-            type="text"
-            placeholder="800-555-3535"
             handleChange={handleChange}
             handleBlur={handleBlur}
           />

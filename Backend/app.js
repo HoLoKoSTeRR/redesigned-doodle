@@ -9,21 +9,20 @@ const header_middleware = require("./middlewares/header");
 const postRouter = require("./Routes/post");
 const userRoutes = require("./Routes/user");
 const profileRoutes = require("./Routes/profile");
-const adminRoutes = require("./Routes/admin");
 
 const app = express();
 
 const PORT = process.env.PORT || 3001;
 
 // set up rate limiter: maximum of five requests per minute
-var RateLimit = require("express-rate-limit");
-var limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 20, // limit each IP to 20 requests per windowMs
+var RateLimit = require('express-rate-limit');
+var limiter =  RateLimit({
+  windowMs: 1*60*1000, // 1 minute
+  max: 5
 });
 
 // apply rate limiter to all requests
-//app.use(limiter);
+app.use(limiter);
 
 app.use(express.json());
 app.use(header_middleware);
@@ -33,7 +32,6 @@ app.use("/images", express.static(directory));
 app.use("/api/posts", postRouter);
 app.use("/api/user", userRoutes);
 app.use("/api/profile", profileRoutes);
-app.use("/api/admin", adminRoutes);
 
 app.get("/test", (req, res) => {
   res.send("Hello World!");

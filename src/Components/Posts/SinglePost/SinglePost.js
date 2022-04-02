@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import './SinglePost.css'
 import avtar from '../../../assets/avtar.jpg'
 import { Link } from 'react-router-dom'
-import moment from "moment";
+import moment from "moment/min/moment-with-locales";
 import Spinner from '../../../Containers/Spinner/Spinner'
 import Modal from '../../../Containers/Modal/Modal'
 
@@ -120,7 +120,7 @@ export class SinglePost extends Component {
                     <Link to={"/public/" + user?.username} rel="noopener noreferrer" >
                         <p>{user?.username}</p>
                     </Link>
-                    <p>{moment(post1.postDate).format("MMM DD, YYYY hh:mm")}</p>
+                    <p>{moment(post1.postDate).locale('ru').format('LLL')}</p>
                 </div>
                 <div className="singlePost_content pt-3">
                     <img src={post1.imagePath} className="img-fluid" alt="prof" />

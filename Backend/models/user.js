@@ -10,7 +10,11 @@ const User = mongoose.model('User', {
     password: {
         type: String,
         required: true
-    }
+    },
+    phone:{
+        type:String,
+        required:true
+    },
 });
 
 
