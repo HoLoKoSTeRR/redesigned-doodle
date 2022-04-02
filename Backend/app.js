@@ -22,7 +22,7 @@ var limiter =  RateLimit({
 });
 
 // apply rate limiter to all requests
-app.use(limiter);
+//app.use(limiter);
 
 app.use(express.json());
 app.use(header_middleware);
