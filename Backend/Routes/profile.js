@@ -136,12 +136,24 @@ router.get("/profiles", (req, res, next) => {
       console.log(e);
     });
 });
+router.get("", (req, res, next) => {
+  Profile.find()
+    .then((prof) => {
+      if (prof) {
+        res.status(200).json(prof);
+      } else {
+        res.status(404).json({ message: "Profiles not found!" });
+      }
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+});
 
 router.get("/viewprofile", checkAuth, (req, res, next) => {
   Profile.findOne({ creator: req.userData.userId }).then((prof) => {
     if (prof) {
       res.status(200).json({
-        message: "Profile fetched successfully!",
         profile: prof,
       });
     } else {
@@ -154,7 +166,6 @@ router.get("/bycreator/:id", (req, res, next) => {
   Profile.findOne({ creator: req.params.id }).then((prof) => {
     if (prof) {
       res.status(200).json({
-        message: "Profile fetched successfully!",
         profile: prof,
       });
     } else {
@@ -174,7 +185,6 @@ router.get("/:id/mypost", (req, res, next) => {
     })
     .then((post) => {
       res.status(200).json({
-        message: "Post fetched successfully!",
         post: post,
       });
     })
@@ -188,10 +198,7 @@ router.get("/:id", (req, res, next) => {
   let creatorId;
   Profile.findOne({ username: req.params.id }).then((prof) => {
     if (prof) {
-      res.status(200).json({
-        message: "Profile fetched successfully!",
-        profile: prof,
-      });
+      res.status(200).json({ prof });
     } else {
       res.status(404).json({ message: "Profile not found!" });
     }

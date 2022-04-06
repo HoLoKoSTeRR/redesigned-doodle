@@ -77,4 +77,18 @@ router.post("/signup", (req, res, next) => {
     
     })
   })
+
+  router.get("", (req, res, next) => {
+    User.find()
+      .then((prof) => {
+        if (prof) {
+          res.status(200).json(prof);
+        } else {
+          res.status(404).json({ message: "Profiles not found!" });
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  });
 module.exports = router

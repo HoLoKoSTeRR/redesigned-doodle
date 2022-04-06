@@ -16,7 +16,7 @@ router.post("/signup", (req, res, next) => {
       Admin.findOne({username:{$eq:req.body.username}}).then(user1=>{
         if(user1){
           return res.status(401).json({
-            message: "Admin Already Exist"
+            message: "User Already Exist"
           })
         }
 
