@@ -1,13 +1,22 @@
 const Profile = require("../../models/profile");
 
-module.exports = (request, reply, done) => {
-    Profile.countDocuments({}, (err, count) => {
+module.exports = (req, res, done) => {
+  let { range } = req.query;
+  try {
+    range = JSON.parse(range);
+  } catch {
+    return undefined;
+  }
+  Profile.countDocuments({}, (err, count) => {
     if (err) {
       console.error(err);
-      reply.status(500).send("Erroreeeeeeeeee!");
+      res.status(500).send("Erroreeeeeeeeee!");
     }
-    reply.header("Content-Range", `profiles 0-${count}/${count}`);
-    reply.header("x-total-count", count);
+    range == undefined
+      ? (range = `post ${range[0]}-${range[1]}/${count}`)
+      : (range = `post 0-${count}/${count}`);
+    res.header("Content-Range", range);
+    res.header("x-total-count", range);
     done();
   });
 };
