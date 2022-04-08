@@ -7,7 +7,7 @@ module.exports = (request, reply, done) => {
       reply.status(500).send("Erroreeeeeeeeee!");
     }
     reply.header("Content-Range", `users 0-${count}/${count}`);
-    reply.header("x-total-count", count);
+    reply.header("x-total-count", `users 0-${count}/${count}`);
     done();
   });
 };
