@@ -5,6 +5,8 @@
   "author": "KhrapavitskiyOleg",
   "homepage": "/",
   "scripts": {
-    "start": "node server.js"
+    "run-backend": "cd Backend && yarn start",
+    "run-admin": "cd admin && yarn -s start",
+    "run-test_case": "cd test_case && yarn -s start"
   }
 }
