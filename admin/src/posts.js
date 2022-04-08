@@ -3,7 +3,6 @@ import { useMediaQuery } from "@mui/material";
 import { useTheme } from "@material-ui/core/styles";
 import {
   Show,
-  ShowButton,
   SimpleShowLayout,
   RichTextField,
   DateField,
@@ -23,31 +22,29 @@ import {
 
 const postFilters = [
   <TextInput source="q" label="Search" alwaysOn />,
-  <ReferenceInput source="userId" label="User" reference="users" allowEmpty>
-    <SelectInput optionText="name" />
+  <ReferenceInput source="_id" label="User" reference="profile" allowEmpty>
+    <SelectInput optionText="username" />
   </ReferenceInput>,
 ];
-export const PostList = () => {
+export const PostList = (props) => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <List basePath="">
+    <List {...props} basePath="">
       {isSmall ? (
         <SimpleList
           primaryText={(record) => record.title}
           secondaryText={(record) => `${record.views} views`}
           tertiaryText={(record) =>
-            new Date(record.published_at).toLocaleDateString()
+            new Date(record.postDate).toLocaleDateString()
           }
         />
       ) : (
         <Datagrid>
-          <TextField source="id" />
-          <ReferenceField label="User" source="userId" reference="users">
-            <TextField source="name" />
-          </ReferenceField>
-          <TextField source="title" />
-          <TextField source="body" />
+          <TextField sortable={false} source="id" />
+          <TextField sortable={false} source="title" />
+          <TextField sortable={false} source="content" />
+          <DateField  source="postDate" />
           <EditButton />
         </Datagrid>
       )}
@@ -63,11 +60,11 @@ export const PostEdit = (props) => (
   <Edit title={<PostTitle />} {...props}>
     <SimpleForm>
       <TextInput disabled source="id" />
-      <ReferenceInput label="User" source="userId" reference="users">
-        <SelectInput optionText="name" />
+      <ReferenceInput label="User" source="username" reference="profile">
+        <SelectInput optionText="username" />
       </ReferenceInput>
       <TextInput source="title" />
-      <TextInput multiline source="body" />
+      <TextInput multiline source="content" />
     </SimpleForm>
   </Edit>
 );
@@ -75,11 +72,11 @@ export const PostEdit = (props) => (
 export const PostCreate = (props) => (
   <Create {...props}>
     <SimpleForm>
-      <ReferenceInput label="User" source="userId" reference="users">
-        <SelectInput optionText="name" />
+      <ReferenceInput label="User" source="username" reference="profile">
+        <SelectInput optionText="username" />
       </ReferenceInput>
       <TextInput source="title" />
-      <TextInput multiline source="body" />
+      <TextInput multiline source="content" />
     </SimpleForm>
   </Create>
 );
@@ -88,9 +85,8 @@ export const PostShow = (props) => (
   <Show {...props}>
     <SimpleShowLayout>
       <TextField source="title" />
-      <TextField source="teaser" />
-      <RichTextField source="body" />
-      <DateField label="Publication date" source="created_at" />
+      <RichTextField source="content" />
+      <DateField label="Publication date" source="postDate" />
     </SimpleShowLayout>
   </Show>
 );
