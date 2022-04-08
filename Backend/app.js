@@ -1,8 +1,6 @@
-/* eslint-disable no-unused-vars */
 const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
-//const localtunnel = require("localtunnel");
 
 const db = require("./db/db");
 const header_middleware = require("./middlewares/header");
@@ -10,30 +8,31 @@ const postRouter = require("./Routes/post");
 const userRoutes = require("./Routes/user");
 const profileRoutes = require("./Routes/profile");
 const adminRoutes = require("./Routes/admin");
-const { contentPost, contentProfiles,contentUser } = require("./middlewares/modelHeaders");
+const profileNoVerRoutes = require("./Routes/profileNoVer");
+const postNoVerRoutes = require("./Routes/postNoVer");
+const {
+  contentPost,
+  contentProfiles,
+  contentUser,
+} = require("./middlewares/modelHeaders");
 
 const app = express();
 
 const PORT = process.env.PORT || 3001;
 
-// set up rate limiter: maximum of five requests per minute
-var RateLimit = require("express-rate-limit");
-var limiter = RateLimit({
-  windowMs: 1 * 60 * 1000, // 1 minute
-  max: 5,
-});
-
-// apply rate limiter to all requests
-//app.use(limiter);
-
 app.use(express.json());
 app.use(header_middleware);
-app.use("/api/posts",contentPost);
+app.use("/api/posts", contentPost);
 app.use("/api/profile", contentProfiles);
 app.use("/api/user", contentUser);
+app.use("/api/nover/posts", contentPost);
+app.use("/api/nover/profile", contentProfiles);
+
 const directory = path.join(__dirname, "./images");
 app.use("/images", express.static(directory));
 
+app.use("/api/nover/posts", postNoVerRoutes);
+app.use("/api/nover/profile", profileNoVerRoutes);
 app.use("/api/posts", postRouter);
 app.use("/api/user", userRoutes);
 app.use("/api/profile", profileRoutes);
