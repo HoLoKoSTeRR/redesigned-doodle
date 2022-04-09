@@ -198,7 +198,7 @@ router.get("/:id", (req, res, next) => {
   let creatorId;
   Profile.findOne({ username: req.params.id }).then((prof) => {
     if (prof) {
-      res.status(200).json({ prof });
+      res.status(200).json({profile:prof});
     } else {
       res.status(404).json({ message: "Profile not found!" });
     }

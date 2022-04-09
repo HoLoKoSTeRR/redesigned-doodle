@@ -113,7 +113,7 @@ router.get("/mypost", checkAuth, (req, res, next) => {
   Post.find({ creator: req.userData.userId })
     .then((post) => {
       if (post) {
-        res.status(200).json(post);
+        res.status(200).json({ posts: post });
       } else {
         res.status(404).json({ message: "Post not found!" });
       }
@@ -124,10 +124,9 @@ router.get("/mypost", checkAuth, (req, res, next) => {
 });
 
 router.get("", (req, res, next) => {
- 
   Post.find().then((documents) => {
     if (documents) {
-      res.status(200).json(documents);
+      res.status(200).json({ posts: documents });
     } else {
       res.status(404).json({ message: "Post not found!" });
     }
