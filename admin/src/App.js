@@ -10,13 +10,13 @@ import {
   fetchUtils,
 } from "react-admin";
 
-import { PostList, PostEdit, PostCreate, PostShow } from "./posts";
-import { UserList, UserEdit, UserCreate, UserShow } from "./user";
-import { UsersList } from "./users";
-import authProvider from "./authProvider";
+import { PostList, PostEdit, PostCreate, PostShow } from "./lists/posts";
+import { UserList, UserEdit, UserCreate, UserShow } from "./lists/user";
+import { UsersList } from "./lists/users";
+import authProvider from "./providers/authProvider";
 import { LoginWithTheme } from "./components/Auth";
 import customRoutes from "./Routes/customRoutes";
-import DataProvider from "./DataProvider";
+import DataProvider from "./providers/DataProvider";
 
 const App = () => (
   <Admin
