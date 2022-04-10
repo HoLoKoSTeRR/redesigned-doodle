@@ -15,6 +15,9 @@ export class Auth extends Component {
       user: {
         email: "",
         password: "",
+        bugs: [],
+        full_name: "TEST",
+        age: 99,
       },
       error: {
         message: "",
