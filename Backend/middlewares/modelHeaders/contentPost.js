@@ -1,16 +1,17 @@
 const Post = require("../../models/post");
 
 module.exports = async (req, res, done) => {
-  let { range } = req.query;
+  let range = await JSON.parse(req.query.range);
   Post.countDocuments({}, (err, count) => {
     if (err) {
       console.error(err);
       res.status(500).send("Erroreeeeeeeeee!");
     }
-    range == undefined ? (range = [0, 0]) : (range = JSON.parse(range));
-    //res.header("Content-Range", `post ${range[0]}-${range[1]}/${count}`);
-
-    res.header("Content-Range", `post 0-${count}/${count}`);
+    if (range) {
+      res.header("Content-Range", `posts ${range[0]}-${range[1]}/${count}`);
+    } else {
+      res.header("Content-Range", `posts 0-${count}/${count}`);
+    }
     done();
   });
 };

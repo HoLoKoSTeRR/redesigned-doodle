@@ -45,26 +45,46 @@ router.post("", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  bcrypt.hash(req.body.password, 10).then((hash) => {
+  if (req.body.password) {
+    bcrypt.hash(req.body.password, 10).then((hash) => {
+      const user = new User({
+        email: req.body.email,
+        password: hash,
+        bugs: req.body.bugs,
+        full_name: req.body.full_name,
+        gender: req.body?.genger,
+        age: req.body.age,
+      });
+
+      User.findOneAndUpdate({ $eq: req.body.id }, user)
+        .then((user1) => {
+          return res.status.send(user1);
+        })
+        .catch((err) => {
+          res.status(500).json({
+            error: err,
+          });
+        });
+    });
+  } else {
     const user = new User({
       email: req.body.email,
-      password: hash,
       bugs: req.body.bugs,
       full_name: req.body.full_name,
       gender: req.body?.genger,
       age: req.body.age,
     });
 
-    User.findOneAndUpdate({$eq: req.body.id },user )
+    User.updateOne({ $eq: req.body.id }, user)
       .then((user1) => {
-        return res.status.send(user1)
+        return res.status.send(user1);
       })
       .catch((err) => {
         res.status(500).json({
           error: err,
         });
       });
-  });
+  }
 });
 
 router.post("/login", (req, res, next) => {
@@ -104,7 +124,12 @@ router.post("/login", (req, res, next) => {
 });
 
 router.get("", (req, res, next) => {
+  let range = JSON.parse(req.query.range);
+  let sort = JSON.parse(req.query.sort);
+  console.log("range", range, "sort", sort);
   User.find()
+    .skip(range[0])
+    .limit(range[1] - range[0] + 1)
     .then((prof) => {
       if (prof) {
         res.status(200).json(prof);
@@ -113,7 +138,7 @@ router.get("", (req, res, next) => {
       }
     })
     .catch((e) => {
-      console.log(e);
+      console.error(e);
     });
 });
 router.get("/:id", (req, res, next) => {

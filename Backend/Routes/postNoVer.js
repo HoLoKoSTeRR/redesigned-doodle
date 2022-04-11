@@ -89,7 +89,7 @@ router.put(
       imagePath = url + "/images/" + req.file.filename;
     }
 
-    console.log("90", req.body);
+    console.log("92", req.body);
     const post = new Post({
       _id: req.body.id,
       title: req.body.title,
@@ -97,7 +97,7 @@ router.put(
       imagePath: imagePath,
       creator: req.body.creator,
     });
-    console.log("98---------------------", post);
+    console.log("100---------------------", post);
     Post.updateOne(
       { _id: req.params.id, creator: req.body.creator },
       post
@@ -114,13 +114,13 @@ router.put(
 router.get("", (req, res, next) => {
   let { range, sort, filter } = req.query;
   range == undefined ? (range = [0, 0]) : JSON.parse(range);
-   sort = JSON.parse(sort);
+  // sort = JSON.parse(sort);
   filter = JSON.parse(filter);
   console.log(range, sort, filter);
   Post.find(filter)
     //.sort(sort)
-     .skip(parseInt(range[0]))
-     .limit(parseInt(range[1]) - parseInt(range[0]) + 1)
+    .skip(parseInt(range[0]))
+    .limit(parseInt(range[1]) - parseInt(range[0]) + 1)
     .then((documents) => {
       if (documents) {
         res.status(200).json(documents);
@@ -159,13 +159,13 @@ router.delete("/:id", (req, res, next) => {
 });
 router.delete("", (req, res, next) => {
   filtr = JSON.parse(req.query.filter);
-  let id = filtr.id[0];
+  let id = filtr.id;
   console.log("delete", id);
 
-  Post.deleteOne({ _id: id }).then((result) => {
+  Post.deleteMany({ _id: { $in: id } }).then((result) => {
     console.log(result);
     if (result.n > 0) {
-      res.status(200).json({ data: { message: "Deletion successful!" } });
+      res.status(200).json({ message: "Deletion successful!" });
     } else {
       return res.status(500).json({ data: { message: "ERROR" } });
     }

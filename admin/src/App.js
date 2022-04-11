@@ -12,7 +12,6 @@ import {
 
 import { PostList, PostEdit, PostCreate, PostShow } from "./lists/posts";
 import { UserList, UserEdit, UserCreate, UserShow } from "./lists/user";
-import { UsersList } from "./lists/users";
 import authProvider from "./providers/authProvider";
 import { LoginWithTheme } from "./components/Auth";
 import customRoutes from "./Routes/customRoutes";
@@ -34,7 +33,6 @@ const App = () => (
       create={PostCreate}
       show={PostShow}
     />
-    {/* <Resource name="profile" icon={UserIcon} list={UsersList} /> */}
     <Resource
       name="user"
       icon={UserIcon}

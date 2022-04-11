@@ -19,8 +19,8 @@ import {
   number,
   email,
   choices,
+  PasswordInput,
 } from "react-admin";
-import { PasswordInput } from "ra-ui-materialui";
 
 const validateFullName = [required(), minLength(2), maxLength(25)];
 const validatePassword = [required(), minLength(8), maxLength(16)];
@@ -34,8 +34,8 @@ const validateGender = choices(
 export const UserList = (props) => (
   <List {...props}>
     <Datagrid rowClick="edit">
-      <TextField source="id" />
-      <TextField source="email" />
+      <TextField sortable={false} source="id" />
+      <TextField sortable={false} source="email" />
       <EditButton />
     </Datagrid>
   </List>
@@ -107,7 +107,7 @@ export const UserEdit = (props) => (
       <TextInput label="Email" source="email" validate={validateEmail} />
 
       <CheckboxGroupInput row={false} source="bugs" choices={bugs} required />
-      <PasswordInput multiline label="Enter new password" source="password" />
+      <PasswordInput label="Enter new password" source="password" />
     </SimpleForm>
   </Edit>
 );
@@ -125,8 +125,11 @@ export const UserCreate = (props) => (
       />
 
       <TextInput label="Email" source="email" validate={validateEmail} />
-      <PasswordInput multiline source="password" validate={validatePassword} />
-
+      <PasswordInput
+        multiline
+        source="new_password"
+        validate={validatePassword}
+      />
       <CheckboxGroupInput row={false} source="bugs" choices={bugs} required />
     </SimpleForm>
   </Create>

@@ -9,13 +9,11 @@ const userRoutes = require("./Routes/user");
 const profileRoutes = require("./Routes/profile");
 const adminRoutes = require("./Routes/admin");
 
-const profileNoVerRoutes = require("./Routes/profileNoVer");
 const postNoVerRoutes = require("./Routes/postNoVer");
 const userNoVerRoutes = require("./Routes/userNoVer");
 
 const {
   contentPost,
-  contentProfiles,
   contentUser,
 } = require("./middlewares/modelHeaders");
 
@@ -26,10 +24,8 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(header_middleware);
 app.use("/api/posts", contentPost);
-app.use("/api/profile", contentProfiles);
 app.use("/api/user", contentUser);
 app.use("/api/nover/posts", contentPost);
-app.use("/api/nover/profile", contentProfiles);
 app.use("/api/nover/user", contentUser);
 
 const directory = path.join(__dirname, "./images");
@@ -37,7 +33,6 @@ app.use("/images", express.static(directory));
 
 app.use("/api/nover/user", userNoVerRoutes);
 app.use("/api/nover/posts", postNoVerRoutes);
-app.use("/api/nover/profile", profileNoVerRoutes);
 
 app.use("/api/posts", postRouter);
 app.use("/api/user", userRoutes);
