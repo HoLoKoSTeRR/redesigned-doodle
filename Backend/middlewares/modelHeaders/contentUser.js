@@ -1,8 +1,7 @@
 const User = require("../../models/user");
 
 module.exports = async (req, res, done) => {
-  console.log("req.query.range", req?.query?.range);
-  if (req?.query?.range == undefined) {
+  if (typeof req.query?.range === typeof undefined) {
     User.countDocuments({}, (err, count) => {
       if (err) {
         console.error(err);
@@ -12,14 +11,15 @@ module.exports = async (req, res, done) => {
 
       done();
     });
+  } else {
+    let range = JSON.parse(req?.query?.range);
+    User.countDocuments({}, (err, count) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send("Erroreeeeeeeeee!");
+      }
+      res.header("Content-Range", `users ${range[0]}-${range[1]}/${count}`);
+      done();
+    });
   }
-  let range = JSON.parse(req?.query?.range);
-  User.countDocuments({}, (err, count) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Erroreeeeeeeeee!");
-    }
-    res.header("Content-Range", `users ${range[0]}-${range[1]}/${count}`);
-    done();
-  });
 };
