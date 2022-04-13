@@ -30,6 +30,45 @@ const validateGender = choices(
   ["m", "f", "nc"],
   "Please choose one of the values"
 );
+let genders = [
+  { id: "m", name: "Male" },
+  { id: "f", name: "Female" },
+  { id: "nc", name: "Prefer not say" },
+];
+let bugs = [
+  {
+    id: "orphography",
+    name: "Орфографические ошибки",
+  },
+  {
+    id: "invalid_field_type",
+    name: "Числовое поле принимает буквы",
+  },
+  {
+    id: "required_field_error",
+    name: "Отображает ошибку если не заполнено необязательное поле/не отображает если не заполнено обязательное",
+  },
+  {
+    id: "unhidden_password",
+    name: "Конфиденциальная информация (пароль) отображается в незашифрованном виде",
+  },
+  {
+    id: "inactive",
+    name: "Серые(неактивные) кнопки работают",
+  },
+  {
+    id: "not_email",
+    name: "Поле для ввода имейла примет данные, не содержащие @",
+  },
+  {
+    id: "clear_button",
+    name: "Не работают крестики очистки полей",
+  },
+  {
+    id: "whrong_password",
+    name: "Система принимает слишком короткий/длинный пароль",
+  },
+];
 
 export const UserList = (props) => (
   <List {...props}>
@@ -40,53 +79,6 @@ export const UserList = (props) => (
     </Datagrid>
   </List>
 );
-let genders = [
-  { id: "m", name: "Male" },
-  { id: "f", name: "Female" },
-  { id: "nc", name: "Prefer not say" },
-];
-let bugs = [
-  {
-    id: 1,
-    type: "orphography",
-    name: "Орфографические ошибки",
-  },
-  {
-    id: 2,
-    type: "invalid_field_type",
-    name: "Числовое поле принимает буквы",
-  },
-  {
-    id: 3,
-    type: "required_field_error",
-    name: "Отображает ошибку если не заполнено необязательное поле/не отображает если не заполнено обязательное",
-  },
-  {
-    id: 4,
-    type: "unhidden_password",
-    name: "Конфиденциальная информация (пароль) отображается в незашифрованном виде",
-  },
-  {
-    id: 5,
-    type: "inactive",
-    name: "Серые(неактивные) кнопки работают",
-  },
-  {
-    id: 6,
-    type: "not_email",
-    name: "Поле для ввода имейла примет данные, не содержащие @",
-  },
-  {
-    id: 7,
-    type: "clear_button",
-    name: "Не работают крестики очистки полей",
-  },
-  {
-    id: 8,
-    type: "whrong_password",
-    name: "Система принимает слишком короткий/длинный пароль",
-  },
-];
 const UserTitle = ({ record }) => {
   return <span>User {record ? `"${record.email}"` : ""}</span>;
 };
@@ -96,6 +88,8 @@ export const UserEdit = (props) => (
     <SimpleForm>
       <TextInput disabled source="id" />
       <TextInput source="full_name" validate={validateFullName} />
+      <TextInput disabled label="Email" source="email" />
+      <PasswordInput label="Enter new password" source="password" />
       <TextInput label="Age" source="age" validate={validateAge} />
       <SelectInput
         label="Gender"
@@ -104,10 +98,7 @@ export const UserEdit = (props) => (
         validate={validateGender}
       />
 
-      <TextInput label="Email" source="email" validate={validateEmail} />
-
       <CheckboxGroupInput row={false} source="bugs" choices={bugs} required />
-      <PasswordInput label="Enter new password" source="password" />
     </SimpleForm>
   </Edit>
 );
@@ -139,7 +130,10 @@ export const UserShow = (props) => (
   <Show {...props}>
     <SimpleShowLayout>
       <TextField source="email" />
-      <RichTextField source="password" />
+      <TextField source="full_name" />
+      <TextField source="gender" />
+      <TextField source="age" />
+      <TextField source="bugs" />
     </SimpleShowLayout>
   </Show>
 );
