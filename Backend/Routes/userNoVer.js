@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const router = express.Router();
-
+const mongoose = require("mongoose");
 router.post("", (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
     const user = new User({
@@ -47,86 +47,61 @@ router.post("", (req, res, next) => {
 router.put("/:id", (req, res, next) => {
   if (req.body.password) {
     bcrypt.hash(req.body.password, 10).then((hash) => {
-      const user = new User({
+      const user = {
         email: req.body.email,
         password: hash,
         bugs: req.body.bugs,
         full_name: req.body.full_name,
         gender: req.body?.genger,
         age: req.body.age,
+      };
+      User.findOne({ email: { $eq: req.body.email } }).then((user1) => {
+        if (user1) {
+          return res.status(401).json({
+            message: "Email Already Exists!1!!!",
+          });
+        }
       });
-
-      User.findOneAndUpdate({ $eq: req.body.id }, user)
+      User.updateOne(
+        { _id: mongoose.Types.ObjectId(req.body.id) },
+        { $set: { ...user } }
+      )
         .then((user1) => {
           return res.status.send(user1);
         })
         .catch((err) => {
           res.status(500).json({
-            error: err,
+            egor: err,
           });
         });
     });
   } else {
-    const user = new User({
+    const user = {
       email: req.body.email,
       bugs: req.body.bugs,
       full_name: req.body.full_name,
       gender: req.body?.genger,
       age: req.body.age,
-    });
-
-    User.updateOne({ $eq: req.body.id }, user)
+    };
+    User.updateOne(
+      { _id: mongoose.Types.ObjectId(req.body.id) },
+      { $set: { ...user } }
+    )
       .then((user1) => {
         return res.status.send(user1);
       })
       .catch((err) => {
         res.status(500).json({
-          error: err,
+          error: { ...err },
         });
       });
   }
 });
 
-router.post("/login", (req, res, next) => {
-  let fetchedUser;
-
-  User.findOne({ email: { $eq: req.body.email } })
-    .then((user) => {
-      if (!user) {
-        return res.status(401).json({
-          message: "Auth failed no such user",
-        });
-      }
-      fetchedUser = user;
-      return bcrypt.compare(req.body.password, user.password);
-    })
-    .then((result) => {
-      console.log(fetchedUser);
-      if (!result) {
-        return res.status(401).json({
-          message: "Auth failed inccorect password",
-        });
-      }
-      const token = jwt.sign(
-        { email: fetchedUser.email, userId: fetchedUser._id },
-        process.env.JWT_KEY,
-        { expiresIn: "1h" }
-      );
-      res.status(200).json({
-        token: token,
-        expiresIn: 3600,
-        userId: fetchedUser._id,
-      });
-    })
-    .catch((e) => {
-      console.log(e);
-    });
-});
-
 router.get("", (req, res, next) => {
-  let range = JSON.parse(req.query.range);
+  let range = JSON.parse(req.query?.range);
   let sort = JSON.parse(req.query.sort);
-  console.log("range", range, "sort", sort);
+  console.log("USER GEt", "range", range, "sort", sort);
   User.find()
     .skip(range[0])
     .limit(range[1] - range[0] + 1)
@@ -141,6 +116,7 @@ router.get("", (req, res, next) => {
       console.error(e);
     });
 });
+
 router.get("/:id", (req, res, next) => {
   User.findById(req.params.id).then((user) => {
     if (user) {
@@ -150,4 +126,24 @@ router.get("/:id", (req, res, next) => {
     }
   });
 });
+
+//delete many users by query params
+router.delete("", (req, res, next) => {
+  let filter = JSON.parse(req.query?.filter);
+  let query = { _id: { $in: filter.id } };
+  console.log("USER DELETE", "filter", filter, query);
+  //res.status(200).json({ _id: { $in: filter.id } });
+  User.deleteMany(query)
+    .then((prof) => {
+      if (prof) {
+        res.status(200).json(filter.id);
+      } else {
+        res.status(404).json({ message: "Profiles not found!" });
+      }
+    })
+    .catch((e) => {
+      console.error(e);
+    });
+});
+
 module.exports = router;
