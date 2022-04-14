@@ -21,9 +21,13 @@ import {
   ShowButton,
   useRecordContext,
   Labeled,
+  SimpleList,
 } from "react-admin";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
+import { useMediaQuery } from "@mui/material";
+import { useTheme } from "@material-ui/core/styles";
+
 const validateFullName = [required(), minLength(2), maxLength(25)];
 const validatePassword = [required(), minLength(8), maxLength(16)];
 const validateEmail = [email(), required()];
@@ -72,15 +76,27 @@ let bugs = [
   },
 ];
 
-export const UserList = (props) => (
-  <List {...props}>
-    <Datagrid rowClick="edit">
-      <TextField sortable={false} source="id" />
-      <TextField sortable={false} source="email" />
-      <ShowButton />
-    </Datagrid>
-  </List>
-);
+export const UserList = (props) => {
+  const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  return (
+    <List {...props} basePath="/user">
+      {isSmall ? (
+        <SimpleList
+          linkType="show"
+          primaryText={(record) => record.id}
+          secondaryText={(record) => record.email}
+        />
+      ) : (
+        <Datagrid rowClick="show">
+          <TextField sortable={false} source="id" />
+          <TextField sortable={false} source="email" />
+          <ShowButton />
+        </Datagrid>
+      )}
+    </List>
+  );
+};
 const UserTitle = ({ record }) => {
   return <span>User {record ? `"${record.email}"` : ""}</span>;
 };

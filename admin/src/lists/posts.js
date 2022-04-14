@@ -18,6 +18,7 @@ import {
   SimpleForm,
   TextInput,
   SimpleList,
+  ImageField
 } from "react-admin";
 
 const postFilters = [
@@ -30,21 +31,22 @@ export const PostList = (props) => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
   return (
-    <List {...props} basePath="">
+    <List {...props} basePath="/posts">
       {isSmall ? (
         <SimpleList
+        linkType="show"
           primaryText={(record) => record.title}
-          secondaryText={(record) => `${record.views} views`}
+          secondaryText={(record) => `${record.content.substring(0, 40)}... `}
           tertiaryText={(record) =>
             new Date(record.postDate).toLocaleDateString()
           }
         />
       ) : (
-        <Datagrid>
+        <Datagrid rowClick="show">
           <TextField sortable={false} source="id" />
           <TextField sortable={false} source="title" />
           <TextField sortable={false} source="content" />
-          <DateField  source="postDate" />
+          <DateField source="postDate" />
           <EditButton />
         </Datagrid>
       )}
@@ -87,6 +89,7 @@ export const PostShow = (props) => (
       <TextField source="title" />
       <RichTextField source="content" />
       <DateField label="Publication date" source="postDate" />
+      <ImageField source="imagePath" title="title" />
     </SimpleShowLayout>
   </Show>
 );
