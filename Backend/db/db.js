@@ -9,7 +9,6 @@ if (!url) {
   process.exitCode = 1;
   throw new Error("MONGODB_URI is not defined, please define it in . env file");
 }
-// console.log(url);
 let mong = mongoose.connect(
   url,
   {

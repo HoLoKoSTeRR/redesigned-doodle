@@ -25,10 +25,8 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(" ").join("-");
-
-    console.log(name);
     const ext = MIME_TYPE_MAP[file.mimetype];
-    cb(null, name + "-" + Date.now() + "." + ext);
+    cb(null, "prof-" + Date.now() + "." + ext);
   },
 });
 
@@ -41,7 +39,6 @@ router.post(
   (req, res, next) => {
     let imagePath;
     const url = req.protocol + "://" + req.get("host");
-    console.log(url);
     if (req.file?.filename) {
       imagePath = url + "/images/" + req.file.filename;
     } else {
@@ -198,7 +195,7 @@ router.get("/:id", (req, res, next) => {
   let creatorId;
   Profile.findOne({ username: req.params.id }).then((prof) => {
     if (prof) {
-      res.status(200).json({profile:prof});
+      res.status(200).json({ profile: prof });
     } else {
       res.status(404).json({ message: "Profile not found!" });
     }

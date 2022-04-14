@@ -17,7 +17,6 @@ router.post("", (req, res, next) => {
       gender: req.body.gender,
       age: req.body.age,
     });
-console.log(user)
     User.findOne({ email: { $eq: req.body.email } })
       .then((user1) => {
         if (user1) {
@@ -108,7 +107,6 @@ router.put("/:id", (req, res, next) => {
 router.get("", (req, res, next) => {
   let range = JSON.parse(req.query?.range);
   let sort = JSON.parse(req.query.sort);
-  console.log("USER GEt", "range", range, "sort", sort);
   User.find()
     .skip(range[0])
     .limit(range[1] - range[0] + 1)
@@ -138,8 +136,6 @@ router.get("/:id", (req, res, next) => {
 router.delete("", (req, res, next) => {
   let filter = JSON.parse(req.query?.filter);
   let query = { _id: { $in: filter.id } };
-  console.log("USER DELETE", "filter", filter, query);
-  //res.status(200).json({ _id: { $in: filter.id } });
   User.deleteMany(query)
     .then((prof) => {
       if (prof) {

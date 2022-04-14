@@ -13,7 +13,6 @@ const MIME_TYPE_MAP = {
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    console.log(req, file);
     const isValid = MIME_TYPE_MAP[file.mimetype];
 
     let error = new Error("Invalid mime type");
@@ -25,9 +24,8 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     const name = file.originalname.toLowerCase().split(" ").join("-");
 
-    console.log(name);
     const ext = MIME_TYPE_MAP[file.mimetype];
-    cb(null, name + "-" + Date.now() + "." + ext);
+    cb(null,"post-" + Date.now() + "." + ext);
   },
 });
 
@@ -37,9 +35,7 @@ router.post(
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
     let imagePath;
-    console.log(req.body);
     const url = req.protocol + "://" + req.get("host");
-    console.log(url);
     if (req.file?.filename) {
       imagePath = url + "/images/" + req.file.filename;
     } else {
@@ -52,7 +48,6 @@ router.post(
       creator: req.userData.userId,
       postDate: req.body.postDate,
     });
-    console.log(post);
     post
       .save()
       .then((post) => {
@@ -86,8 +81,6 @@ router.put(
       const url = req.protocol + "://" + req.get("host");
       imagePath = url + "/images/" + req.file.filename;
     }
-
-    console.log("90", req.body);
     const post = new Post({
       _id: req.body.id,
       title: req.body.title,
@@ -95,7 +88,6 @@ router.put(
       imagePath: imagePath,
       creator: req.userData.userId,
     });
-    console.log("98---------------------", post);
     Post.updateOne(
       { _id: req.params.id, creator: req.userData.userId },
       post
@@ -145,7 +137,6 @@ router.get("/:id", (req, res, next) => {
 router.delete("/:id", checkAuth, (req, res, next) => {
   Post.deleteOne({ _id: req.params.id, creator: req.userData.userId }).then(
     (result) => {
-      console.log(result);
       if (result.n > 0) {
         res.status(200).json({ message: "Deletion successful!" });
       } else {

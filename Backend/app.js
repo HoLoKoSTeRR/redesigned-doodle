@@ -12,10 +12,7 @@ const adminRoutes = require("./Routes/admin");
 const postNoVerRoutes = require("./Routes/postNoVer");
 const userNoVerRoutes = require("./Routes/userNoVer");
 
-const {
-  contentPost,
-  contentUser,
-} = require("./middlewares/modelHeaders");
+const { contentPost, contentUser } = require("./middlewares/modelHeaders");
 
 const app = express();
 
