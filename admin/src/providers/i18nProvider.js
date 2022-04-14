@@ -1,8 +1,7 @@
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import { resolveBrowserLocale } from "react-admin";
-import { ru, en, fr } from "../i18n";
+import { ru, en} from "../i18n";
 const messages = {
-  fr: fr,
   en: en,
   ru: ru,
 };
