@@ -9,16 +9,19 @@ export default {
         headers: new Headers({ "Content-Type": "application/json" }),
       }
     );
-    try {
-      const response = await fetch(request);
-      if (response.status < 200 || response.status >= 300) {
-        throw new Error(response.statusText);
-      }
-      const auth = await response.json();
-      localStorage.setItem("auth", JSON.stringify(auth));
-    } catch {
-      throw new Error("Network error");
-    }
+
+    const response = await fetch(request)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.message) {
+          throw new Error(res.message);
+        }
+        const auth = res;
+        localStorage.setItem("auth", JSON.stringify(auth));
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   },
   // called when the user clicks on the logout button
   logout: () => {
@@ -34,16 +37,16 @@ export default {
         headers: new Headers({ "Content-Type": "application/json" }),
       }
     );
-    try {
-      const response = await fetch(request);
-      if (response.status < 200 || response.status >= 300) {
-        throw new Error(response.statusText);
-      }
-      const auth = await response.json();
-      localStorage.setItem("auth", JSON.stringify(auth));
-    } catch {
-      throw new Error("Network error");
-    }
+    const response = await fetch(request)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.message !== "User created!") {
+          throw new Error(res.message);
+        }
+      })
+      .catch((error) => {
+        throw new Error(error);
+      });
   },
   // called when the API returns an error
   checkError: (error) => {

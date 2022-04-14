@@ -87,7 +87,7 @@ const Signup = () => {
 
   const handleSubmit = (auth) => {
     setLoading(true);
-    signup(auth, location.state ? location.state.nextPathname : "/").catch(
+    signup(auth, location.state ? location.state.nextPathname : "/login").catch(
       (error) => {
         setLoading(false);
         notify(

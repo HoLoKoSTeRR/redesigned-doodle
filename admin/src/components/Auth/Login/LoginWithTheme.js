@@ -142,7 +142,6 @@ const Login = () => {
                   <Field
                     autoFocus
                     name="username"
-                    placeholder="Enter username"
                     component={renderInput}
                     label={translate("ra.auth.username")}
                     disabled={loading}
@@ -153,7 +152,6 @@ const Login = () => {
                     name="password"
                     component={renderInput}
                     label={translate("ra.auth.password")}
-                    placeholder="Enter password"
                     type="password"
                     disabled={loading}
                   />
