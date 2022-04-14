@@ -1,21 +1,23 @@
 const express = require("express");
-const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
-const router = express.Router();
 const mongoose = require("mongoose");
+
+const User = require("../models/user");
+const router = express.Router();
+
 router.post("", (req, res, next) => {
   bcrypt.hash(req.body.password, 10).then((hash) => {
     const user = new User({
+      // _id: new mongoose.Types.ObjectId(),
       email: req.body.email,
       password: hash,
       bugs: req.body.bugs,
       full_name: req.body.full_name,
-      gender: req.body.genger,
+      gender: req.body.gender,
       age: req.body.age,
     });
-
+console.log(user)
     User.findOne({ email: { $eq: req.body.email } })
       .then((user1) => {
         if (user1) {
@@ -30,10 +32,7 @@ router.post("", (req, res, next) => {
               message: "Error Creating USer",
             });
           }
-          res.status(201).json({
-            message: "User created!",
-            result: result,
-          });
+          res.status(201).json(result);
         });
       })
       .catch((err) => {
@@ -48,39 +47,42 @@ router.put("/:id", (req, res, next) => {
   if (req.body.password) {
     bcrypt.hash(req.body.password, 10).then((hash) => {
       const user = {
-        email: req.body.email,
         password: hash,
         bugs: req.body.bugs,
         full_name: req.body.full_name,
-        gender: req.body?.genger,
+        gender: req.body.gender,
         age: req.body.age,
       };
-      User.findOne({ email: { $eq: req.body.email } }).then((user1) => {
-        if (user1) {
-          return res.status(401).json({
-            message: "Email Already Exists!1!!!",
-          });
-        }
-      });
+      // User.findOne({ _id: mongoose.Types.ObjectId(req.body.id) }).then((user1) => {
+      //   if (user1) {
+      //     return res.status(401).json({
+      //       message: "Email Already Exists!1!!!",
+      //     });
+      //   }
+      // });
       User.updateOne(
         { _id: mongoose.Types.ObjectId(req.body.id) },
-        { $set: { ...user } }
+        { $set: { ...user } },
+        { safe: false }
       )
         .then((user1) => {
-          return res.status.send(user1);
+          User.findOne({ _id: mongoose.Types.ObjectId(req.body.id) }).then(
+            (user2) => {
+              return res.status(200).send(user2);
+            }
+          );
         })
         .catch((err) => {
           res.status(500).json({
-            egor: err,
+            egor: { ...err },
           });
         });
     });
   } else {
     const user = {
-      email: req.body.email,
       bugs: req.body.bugs,
       full_name: req.body.full_name,
-      gender: req.body?.genger,
+      gender: req.body.gender,
       age: req.body.age,
     };
     User.updateOne(
@@ -88,12 +90,17 @@ router.put("/:id", (req, res, next) => {
       { $set: { ...user } }
     )
       .then((user1) => {
-        return res.status.send(user1);
+        User.findOne({ _id: mongoose.Types.ObjectId(req.body.id) }).then(
+          (user2) => {
+            return res.status(200).send({ id: user2._id, ...user2 });
+          }
+        );
       })
       .catch((err) => {
         res.status(500).json({
-          error: { ...err },
+          errrror: err,
         });
+        console.error(err);
       });
   }
 });

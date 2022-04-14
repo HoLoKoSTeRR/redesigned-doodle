@@ -2,7 +2,6 @@ import {
   List,
   Datagrid,
   TextField,
-  EditButton,
   Edit,
   Create,
   SimpleForm,
@@ -10,7 +9,6 @@ import {
   SelectInput,
   Show,
   SimpleShowLayout,
-  RichTextField,
   CheckboxGroupInput,
   required,
   minLength,
@@ -20,8 +18,12 @@ import {
   email,
   choices,
   PasswordInput,
+  ShowButton,
+  useRecordContext,
+  Labeled,
 } from "react-admin";
-
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
 const validateFullName = [required(), minLength(2), maxLength(25)];
 const validatePassword = [required(), minLength(8), maxLength(16)];
 const validateEmail = [email(), required()];
@@ -75,7 +77,7 @@ export const UserList = (props) => (
     <Datagrid rowClick="edit">
       <TextField sortable={false} source="id" />
       <TextField sortable={false} source="email" />
-      <EditButton />
+      <ShowButton />
     </Datagrid>
   </List>
 );
@@ -89,7 +91,7 @@ export const UserEdit = (props) => (
       <TextInput disabled source="id" />
       <TextInput source="full_name" validate={validateFullName} />
       <TextInput disabled label="Email" source="email" />
-      <PasswordInput label="Enter new password" source="password" />
+      {/* <PasswordInput label="Enter new password" source="password" /> */}
       <TextInput label="Age" source="age" validate={validateAge} />
       <SelectInput
         label="Gender"
@@ -118,14 +120,26 @@ export const UserCreate = (props) => (
       <TextInput label="Email" source="email" validate={validateEmail} />
       <PasswordInput
         multiline
-        source="new_password"
+        label="Password"
+        source="password"
         validate={validatePassword}
       />
       <CheckboxGroupInput row={false} source="bugs" choices={bugs} required />
     </SimpleForm>
   </Create>
 );
-
+const Bugs = (props) => {
+  const record = useRecordContext(props);
+  return (
+    <>
+      <Stack direction="row" spacing={1}>
+        {record.bugs.map((item) => (
+          <Chip key={item} label={item} />
+        ))}{" "}
+      </Stack>
+    </>
+  );
+};
 export const UserShow = (props) => (
   <Show {...props}>
     <SimpleShowLayout>
@@ -133,7 +147,9 @@ export const UserShow = (props) => (
       <TextField source="full_name" />
       <TextField source="gender" />
       <TextField source="age" />
-      <TextField source="bugs" />
+      <Labeled source="bugs" label="Bugs">
+        <Bugs source="bugs" />
+      </Labeled>
     </SimpleShowLayout>
   </Show>
 );

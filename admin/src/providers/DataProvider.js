@@ -72,7 +72,7 @@ export default {
       method: "PUT",
       body: JSON.stringify(params.data),
     })
-      .then(({ json }) => ({ data: json, id: json._id }))
+      .then(({ json }) => ({ data: { id: json._id, json } }))
       .catch((err) => {
         console.log(err);
         Promise.reject(err);
