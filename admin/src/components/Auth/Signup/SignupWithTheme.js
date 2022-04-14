@@ -17,8 +17,8 @@ import {
 import { createTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import LockIcon from "@material-ui/icons/Lock";
-import { Notification, useTranslate, useLogin, useNotify } from "react-admin";
-
+import { Notification, useTranslate, useNotify } from "react-admin";
+import useSignup from "../../hooks/useSignup";
 import { lightTheme, darkTheme } from "../../themes";
 
 const useStyles = makeStyles((theme) => ({
@@ -77,17 +77,17 @@ const renderInput = ({
 
 const { Form } = withTypes();
 
-const Login = () => {
+const Signup = () => {
   const [loading, setLoading] = useState(false);
   const translate = useTranslate();
   const classes = useStyles();
   const notify = useNotify();
-  const login = useLogin();
+  const signup = useSignup();
   const location = useLocation();
 
   const handleSubmit = (auth) => {
     setLoading(true);
-    login(auth, location.state ? location.state.nextPathname : "/").catch(
+    signup(auth, location.state ? location.state.nextPathname : "/").catch(
       (error) => {
         setLoading(false);
         notify(
@@ -168,13 +168,13 @@ const Login = () => {
                   fullWidth
                 >
                   {loading && <CircularProgress size={25} thickness={2} />}
-                  {translate("ra.auth.sign_in")}
+                  {translate("ra.auth.sign_up")}
                 </Button>
               </CardActions>
-                <Typography>
-                  {" "}
-                  Have an account ? <Link href="/login">Login</Link>
-                </Typography>
+              <Typography>
+                {" "}
+                Have an account ? <Link href="#/login">Login</Link>
+              </Typography>
             </Card>
             <Notification />
           </div>
@@ -184,18 +184,18 @@ const Login = () => {
   );
 };
 
-Login.propTypes = {
+Signup.propTypes = {
   authProvider: PropTypes.func,
   previousRoute: PropTypes.string,
 };
 
 // We need to put the ThemeProvider decoration in another component
-// Because otherwise the useStyles() hook used in Login won't get
+// Because otherwise the useStyles() hook used in Signup won't get
 // the right theme
-const LoginWithTheme = (props) => (
+const SignupWithTheme = (props) => (
   <ThemeProvider theme={createTheme(darkTheme)}>
-    <Login {...props} />
+    <Signup {...props} />
   </ThemeProvider>
 );
 
-export default LoginWithTheme;
+export default SignupWithTheme;

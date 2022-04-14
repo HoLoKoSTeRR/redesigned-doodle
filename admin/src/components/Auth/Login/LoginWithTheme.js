@@ -11,6 +11,8 @@ import {
   CardActions,
   CircularProgress,
   TextField,
+  Typography,
+  Link,
 } from "@material-ui/core";
 import { createTheme, makeStyles } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
@@ -169,6 +171,10 @@ const Login = () => {
                   {translate("ra.auth.sign_in")}
                 </Button>
               </CardActions>
+                <Typography>
+                  {" "}
+                  Don't have an account ? <Link href="#/signup">Sign Up</Link>
+                </Typography>
             </Card>
             <Notification />
           </div>
