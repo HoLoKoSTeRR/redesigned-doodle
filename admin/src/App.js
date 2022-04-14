@@ -1,14 +1,7 @@
 import * as React from "react";
 import PostIcon from "@material-ui/icons/Book";
 import UserIcon from "@material-ui/icons/Group";
-import {
-  Admin,
-  Resource,
-  ListGuesser,
-  EditGuesser,
-  ShowGuesser,
-  fetchUtils,
-} from "react-admin";
+import { Admin, Resource } from "react-admin";
 
 import { PostList, PostEdit, PostCreate, PostShow } from "./lists/posts";
 import { UserList, UserEdit, UserCreate, UserShow } from "./lists/user";
@@ -16,6 +9,8 @@ import authProvider from "./providers/authProvider";
 import { LoginWithTheme } from "./components/Auth";
 import customRoutes from "./Routes/customRoutes";
 import DataProvider from "./providers/DataProvider";
+import MyLayout from "./components/Layouts/Layout";
+import i18nProvider from "./providers/i18nProvider";
 
 const App = () => (
   <Admin
@@ -24,6 +19,8 @@ const App = () => (
     loginPage={LoginWithTheme}
     authProvider={authProvider}
     customRoutes={customRoutes}
+    i18nProvider={i18nProvider}
+    layout={MyLayout}
   >
     <Resource
       name="posts"

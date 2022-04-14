@@ -1,15 +1,14 @@
-import polyglotI18nProvider from 'ra-i18n-polyglot';
-import englishMessages from './i18n/en';
-
+import polyglotI18nProvider from "ra-i18n-polyglot";
+import { resolveBrowserLocale } from "react-admin";
+import { ru, en, fr } from "../i18n";
 const messages = {
-    fr: () => import('./i18n/fr').then(messages => messages.default),
+  fr: fr,
+  en: en,
+  ru: ru,
 };
+const i18nProvider = polyglotI18nProvider(
+  (locale) => (messages[locale] ? messages[locale] : messages.ru),
+  resolveBrowserLocale()
+);
 
-export default polyglotI18nProvider(locale => {
-    if (locale === 'fr') {
-        return messages[locale]();
-    }
-
-    // Always fallback on english
-    return englishMessages;
-}, 'en');
+export default i18nProvider;

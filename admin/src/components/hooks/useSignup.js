@@ -1,8 +1,8 @@
 import { useCallback } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import {useAuthProvider,resetNotification} from "react-admin";
 
-import {useAuthProvider,resetNotification} from "ra-core";
 const defaultAuthParams = {
   signupUrl: "/signup",
   afterSignupUrl: "/login",
