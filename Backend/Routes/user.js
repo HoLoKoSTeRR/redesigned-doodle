@@ -53,6 +53,7 @@ router.post("/login", (req, res, next) => {
           message: "Auth failed no such user",
         });
       }
+      // console.log("USER",user);
       fetchedUser = user;
       return bcrypt.compare(req.body.password, user.password);
     })
@@ -74,7 +75,7 @@ router.post("/login", (req, res, next) => {
       });
     })
     .catch((e) => {
-      console.log(e);
+      console.error(e);
     });
 });
 
@@ -88,7 +89,7 @@ router.get("", (req, res, next) => {
       }
     })
     .catch((e) => {
-      console.log(e);
+      console.error(e);
     });
 });
 module.exports = router;

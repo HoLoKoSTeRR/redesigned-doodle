@@ -3,6 +3,7 @@ const Post = require("../models/post");
 const router = new express.Router();
 const multer = require("multer");
 const { json } = require("body-parser");
+const mongoose = require("mongoose");
 
 const MIME_TYPE_MAP = {
   "image/png": "png",
@@ -46,7 +47,7 @@ router.post(
       title: req.body.title,
       content: req.body.content,
       imagePath: imagePath,
-      creator: req.body.username,
+      creator: '622759cd99a7c1db81f5cfa3',
       postDate: Date().toString(),
     });
     post

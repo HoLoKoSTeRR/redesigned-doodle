@@ -18,7 +18,7 @@ import {
   SimpleForm,
   TextInput,
   SimpleList,
-  ImageField
+  ImageField,
 } from "react-admin";
 
 const postFilters = [
@@ -34,7 +34,7 @@ export const PostList = (props) => {
     <List {...props} basePath="/posts">
       {isSmall ? (
         <SimpleList
-        linkType="show"
+          linkType="show"
           primaryText={(record) => record.title}
           secondaryText={(record) => `${record.content.substring(0, 40)}... `}
           tertiaryText={(record) =>
@@ -74,9 +74,6 @@ export const PostEdit = (props) => (
 export const PostCreate = (props) => (
   <Create {...props}>
     <SimpleForm>
-      <ReferenceInput label="User" source="username" reference="profile">
-        <SelectInput optionText="username" />
-      </ReferenceInput>
       <TextInput source="title" />
       <TextInput multiline source="content" />
     </SimpleForm>

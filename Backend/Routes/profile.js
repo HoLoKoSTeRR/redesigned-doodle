@@ -5,6 +5,7 @@ const multer = require("multer");
 const checkAuth = require("../middlewares/check-auth");
 const Profile = require("../models/profile");
 const Post = require("../models/post");
+const User = require("../models/user");
 
 const MIME_TYPE_MAP = {
   "image/png": "png",
@@ -149,13 +150,16 @@ router.get("", (req, res, next) => {
 
 router.get("/viewprofile", checkAuth, (req, res, next) => {
   Profile.findOne({ creator: req.userData.userId }).then((prof) => {
-    if (prof) {
-      res.status(200).json({
-        profile: prof,
-      });
-    } else {
-      res.status(404).json({ message: "Profile not found!" });
-    }
+    User.findOne({ _id: req.userData.userId }).then((user) => {
+      if (prof && user) {
+        res.status(200).json({
+          profile: prof,
+          user: user,
+        });
+      } else {
+        res.status(404).json({ message: "Profile not found!" });
+      }
+    });
   });
 });
 

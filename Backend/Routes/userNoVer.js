@@ -52,13 +52,6 @@ router.put("/:id", (req, res, next) => {
         gender: req.body.gender,
         age: req.body.age,
       };
-      // User.findOne({ _id: mongoose.Types.ObjectId(req.body.id) }).then((user1) => {
-      //   if (user1) {
-      //     return res.status(401).json({
-      //       message: "Email Already Exists!1!!!",
-      //     });
-      //   }
-      // });
       User.updateOne(
         { _id: mongoose.Types.ObjectId(req.body.id) },
         { $set: { ...user } },
