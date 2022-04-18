@@ -62,10 +62,10 @@ export class Posts extends Component {
                     <div className="row align-items-center text-center text-md-left">
                         <div className="col-lg-4">
                             <h1 className="mb-3 display-3">
-                                Tell Your Story to the World
+                               Расскажи свою историю миру!
                     </h1>
                             <p>
-                                Join with us! Login or Register. Write your story and share !!
+                               Присоединяйтесь к нам! Пишите и делитесь своими историями!!
                     </p>
                         </div>
                         <div className="col-lg-8">
@@ -84,7 +84,7 @@ export class Posts extends Component {
                         </div>
 
                         <div className="col-md-4 col-xs-12 pl-4">
-                            <h3 className="mb-4"> Popular Writers</h3>
+                            <h3 className="mb-4"> Популярные авторы</h3>
                             <hr></hr>
                             {allUsers}
                         </div>

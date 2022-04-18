@@ -218,9 +218,9 @@ export class CreatePost extends Component {
         {iserror}
         <div className="container container-short">
           <form onSubmit={this.mySubmitHandler} className="pt-4">
-            <h3 className="text-center mb-3">Create Post</h3>
+            <h3 className="text-center mb-3">Создать пост</h3>
             <div className="form-group">
-              <label htmlFor="title">Title </label>
+              <label htmlFor="title">Заголовок </label>
               <input
                 type="title"
                 name="title"
@@ -229,7 +229,7 @@ export class CreatePost extends Component {
                   "form-control " +
                   (this.state.errors.title ? "is-invalid" : "")
                 }
-                placeholder="Enter the title"
+                placeholder="Введите заголовок"
                 required
                 onChange={this.myChangeHandler}
               />
@@ -244,7 +244,7 @@ export class CreatePost extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Description </label>
+              <label htmlFor="password">Описание </label>
               <textarea
                 type="text"
                 name="content"
@@ -254,7 +254,7 @@ export class CreatePost extends Component {
                   "form-control " +
                   (this.state.errors.content ? "is-invalid" : "")
                 }
-                placeholder="Enter the  description"
+                placeholder="Введите описание"
                 required="required"
                 onChange={this.myChangeHandler}
               />
@@ -268,13 +268,14 @@ export class CreatePost extends Component {
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="password">Image </label>
+              <label htmlFor="password">Изображение </label>
               <ImageUpload
+              label="Выбрать"
                 id="imagePath"
                 name="imagePath"
                 onInput={this.imageHandler}
                 value={this.state.Post.imagePath}
-                errorText="Please provide an image."
+                errorText="Пожалуйста выберите изображение"
               />
               {this.state.errors.imagePath.length > 0 && (
                 <div className="mt-1">
@@ -295,7 +296,7 @@ export class CreatePost extends Component {
                     : "disabled"
                 }
               >
-                Submit
+                Создать
               </button>
             </div>
           </form>

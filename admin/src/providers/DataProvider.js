@@ -1,9 +1,9 @@
 import { fetchUtils } from "react-admin";
 import { stringify } from "query-string";
 
-const apiUrl = "https://arcane-anchorage-00164.herokuapp.com/api/nover";
+// const apiUrl = "https://arcane-anchorage-00164.herokuapp.com/api/nover";
 //const apiUrl = "http://192.168.100.3:3001/api/nover";
-//const apiUrl = "http://localhost:3001/api/nover";
+const apiUrl = "http://localhost:3001/api/nover";
 const httpClient = fetchUtils.fetchJson;
 export default {
   getList: (resource, params) => {

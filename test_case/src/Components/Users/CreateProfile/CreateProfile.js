@@ -206,16 +206,18 @@ export class CreatePost extends Component {
         </>
       );
     }
-
+    let profile = localStorage.getItem("profileData");
     return (
       <>
         {isLoading}
         {iserror}
         <div className="container container-short">
           <form onSubmit={this.mySubmitHandler} className="pt-4">
-            <h3 className="text-center mb-3">Create Profile</h3>
+            <h3 className="text-center mb-3">
+              {profile ? "Редактировать профиль" : "Создать профиль"}
+            </h3>
             <div className="form-group">
-              <label htmlFor="username">Username </label>
+              <label htmlFor="username">Имя пользователя </label>
               <input
                 type="username"
                 name="username"
@@ -224,7 +226,7 @@ export class CreatePost extends Component {
                   "form-control " +
                   (this.state.errors.username ? "is-invalid" : "")
                 }
-                placeholder="Enter the username"
+                placeholder="Введите имя пользователя"
                 required
                 onChange={this.myChangeHandler}
               />
@@ -239,7 +241,7 @@ export class CreatePost extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="Bio">Bio </label>
+              <label htmlFor="Bio">О себе </label>
               <textarea
                 type="text"
                 name="bio"
@@ -248,7 +250,7 @@ export class CreatePost extends Component {
                 className={
                   "form-control " + (this.state.errors.bio ? "is-invalid" : "")
                 }
-                placeholder="Enter the  description"
+                placeholder="Введите описание"
                 required="required"
                 onChange={this.myChangeHandler}
               />
@@ -262,15 +264,16 @@ export class CreatePost extends Component {
               )}
             </div>
             <div className="form-group">
-              <label htmlFor="password">Image </label>
+              <label htmlFor="password">Изображение </label>
               <ImageUpload
+                label="Выбрать"
                 id="imagePath"
                 name="imagePath"
                 onInput={this.imageHandler}
                 value={this.state.Post.imagePath}
-                errorText="Please provide an image."
+                errorText="Пожалуйста выберите изображение"
               />
-              {this.state.errors.imagePath.length > 0 && (
+              {this.state.Post.imagePath === "" && (
                 <div className="mt-1">
                   <span className="error text-danger">
                     {this.state.errors.imagePath}
@@ -289,7 +292,7 @@ export class CreatePost extends Component {
                     : "disabled"
                 }
               >
-                Save Profile
+                Сохранить изменения
               </button>
             </div>
           </form>

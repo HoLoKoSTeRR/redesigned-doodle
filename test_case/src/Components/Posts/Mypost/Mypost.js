@@ -79,7 +79,7 @@ export class Mypost extends Component {
                     <div className="row">
                         <div className="col-md-12 col-xs-12">
                             {
-                                this.state.posts.length === 0 ? <h2 className="text-center">No Posts Found</h2> : null
+                                this.state.posts.length === 0 ? <h2 className="text-center">Постов не найдено</h2> : null
                             }
                             <div className="row">
                                 {fetchedposts}

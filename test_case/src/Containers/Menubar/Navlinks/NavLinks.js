@@ -15,16 +15,16 @@ const NavLinks = props => {
   }
   return <ul className="nav-links">
     <li>
-      <NavLink to="/" exact>Home</NavLink>
+      <NavLink to="/" exact>Домой</NavLink>
     </li>
     {auth.isLoggedIn && (<> <li>
-      <NavLink to="/profile">Profile</NavLink>
+      <NavLink to="/profile">Профиль</NavLink>
     </li>
       <li>
-        <NavLink to="/mypost">My Post</NavLink>
+        <NavLink to="/mypost">Мои посты</NavLink>
       </li>
       <li>
-        <NavLink to="/create">Create Post</NavLink>
+        <NavLink to="/create">Создать пост</NavLink>
       </li></>
     )}
 
@@ -36,13 +36,13 @@ const NavLinks = props => {
 
     {!auth.isLoggedIn && (
       <li>
-        <NavLink to="/auth">Login/Register</NavLink>
+        <NavLink to="/auth">Войти</NavLink>
       </li>
     )}
 
     {auth.isLoggedIn && (
       <li>
-        <button onClick={onLgout}>Logout</button>
+        <button onClick={onLgout}>Выйти</button>
       </li>
     )}
   </ul>

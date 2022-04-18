@@ -62,9 +62,6 @@ export const PostEdit = (props) => (
   <Edit title={<PostTitle />} {...props}>
     <SimpleForm>
       <TextInput disabled source="id" />
-      <ReferenceInput label="User" source="username" reference="profile">
-        <SelectInput optionText="username" />
-      </ReferenceInput>
       <TextInput source="title" />
       <TextInput multiline source="content" />
     </SimpleForm>

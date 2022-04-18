@@ -54,11 +54,16 @@ export class Auth extends Component {
           return Axios.get("/profile/viewprofile");
         })
         .then((data) => {
+          // console.log("===============================");
+          // console.log(data.data.user.bugs);
+          // console.log("===============================");
           let profile = data.data.profile.username;
+          let bugs = data.data.user.bugs;
           localStorage.setItem(
             "profileData",
             JSON.stringify({
               username: profile,
+              bugs: bugs,
             })
           );
         })
@@ -170,12 +175,12 @@ export class Auth extends Component {
 
         <div className="container container-short py-5">
           <h1 className="pt-2 py-2">
-            {this.state.isLoginMode ? "Login " : "Sign Up"}
+            {this.state.isLoginMode ? "Войти " : "Зарегистрироваться"}
           </h1>
           <hr></hr>
           <form onSubmit={this.mySubmitHandler} className="pt-4">
             <div className="form-group">
-              <label htmlFor="email">Email </label>
+              <label htmlFor="email">Адрес электронной почты</label>
               <input
                 type="email"
                 name="email"
@@ -184,7 +189,7 @@ export class Auth extends Component {
                   "form-control " +
                   (this.state.errors.email ? "is-invalid" : "")
                 }
-                placeholder="Enter your email"
+                placeholder="Введите свой адрес"
                 required
                 onChange={this.myChangeHandler}
               />
@@ -198,7 +203,7 @@ export class Auth extends Component {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Password </label>
+              <label htmlFor="password">Пароль </label>
               <input
                 type="password"
                 name="password"
@@ -207,9 +212,9 @@ export class Auth extends Component {
                   "form-control " +
                   (this.state.errors.password ? "is-invalid" : "")
                 }
-                placeholder="Enter your Password"
+                placeholder="Введите пароль"
                 required="required"
-                data-error="Please enter your full name."
+                data-error="Пожалуйста введите пароль."
                 onChange={this.myChangeHandler}
               />
               {this.state.errors.password.length > 0 && (
@@ -235,7 +240,7 @@ export class Auth extends Component {
                     : "disabled"
                 }
               >
-                {this.state.isLoginMode ? "Login" : "Sign Up"}
+                {this.state.isLoginMode ? "Войти" : "Зарегистрироваться"}
               </button>
 
               <button
@@ -243,7 +248,7 @@ export class Auth extends Component {
                 className="btn btn-primary"
                 onClick={this.switchLoginhandler}
               >
-                Switch to {this.state.isLoginMode ? "Sign Up" : "Login"}{" "}
+                Перейти {this.state.isLoginMode ? " к Регистрации" : "ко Входу"}{" "}
               </button>
             </div>
           </form>
