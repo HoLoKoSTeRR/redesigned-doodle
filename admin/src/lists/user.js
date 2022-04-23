@@ -37,6 +37,7 @@ const validateGender = choices(
   ["m", "f", "nc"],
   "Please choose one of the values"
 );
+
 let genders = [
   { id: "m", name: "Male" },
   { id: "f", name: "Female" },
@@ -95,49 +96,83 @@ export const UserList = (props) => {
   );
 };
 const UserTitle = ({ record }) => {
-  return <span>User {record ? `"${record.email}"` : ""}</span>;
+  return (
+    <span>
+      {"user.edit.user"} {record ? `"${record.email}"` : ""}
+    </span>
+  );
 };
 
-export const UserEdit = (props) => (
-  <Edit title={<UserTitle />} {...props}>
-    <SimpleForm>
-      <TextInput disabled source="id" />
-      <TextInput source="full_name" validate={validateFullName} />
-      <TextInput disabled label="Email" source="email" />
-      <TextInput label="Age" source="age" validate={validateAge} />
-      <SelectInput
-        label="Gender"
-        source="gender"
-        choices={genders}
-        validate={validateGender}
-      />
-      <PasswordInput label="Enter new password" source="password" />
+export const UserEdit = (props) => {
+  return (
+    <Edit title={<UserTitle />} {...props}>
+      <SimpleForm>
+        <TextInput disabled source="id" label={"user.edit.id"} />
+        <TextInput
+          source="full_name"
+          validate={validateFullName}
+          label={"user.edit.full_name"}
+        />
+        <TextInput disabled label={"user.edit.email"} source="email" />
+        <TextInput
+          label={"user.edit.age"}
+          source="age"
+          validate={validateAge}
+        />
+        <SelectInput
+          label={"user.edit.gender"}
+          source="gender"
+          choices={genders}
+          validate={validateGender}
+        />
+        <PasswordInput label={"user.edit.password"} source="password" />
 
-      <CheckboxGroupInput row={false} source="bugs" choices={bugs} required />
-    </SimpleForm>
-  </Edit>
-);
+        <CheckboxGroupInput
+          row={false}
+          source="bugs"
+          choices={bugs}
+          required
+          label={"user.edit.bugs"}
+        />
+      </SimpleForm>
+    </Edit>
+  );
+};
 
 export const UserCreate = (props) => (
   <Create {...props}>
     <SimpleForm>
-      <TextInput source="full_name" validate={validateFullName} />
-      <TextInput label="Age" source="age" validate={validateAge} />
+      <TextInput
+        source="full_name"
+        validate={validateFullName}
+        label={"user.edit.full_name"}
+      />
+      <TextInput source="age" validate={validateAge} label={"user.edit.age"} />
       <SelectInput
-        label="Gender"
+        label={"user.edit.gender"}
         source="gender"
         choices={genders}
         validate={validateGender}
       />
 
-      <TextInput label="Email" source="email" validate={validateEmail} />
+      <TextInput
+        label={"user.edit.email"}
+        source="email"
+        validate={validateEmail}
+      />
       <PasswordInput
         multiline
-        label="Password"
         source="password"
         validate={validatePassword}
+        label={"user.edit.password"}
       />
-      <CheckboxGroupInput row={false} source="bugs" choices={bugs} required />
+      <CheckboxGroupInput
+        row={false}
+        source="bugs"
+        choices={bugs}
+        required
+        label={"user.edit.bugs"}
+      />
     </SimpleForm>
   </Create>
 );
@@ -156,15 +191,15 @@ const Bugs = (props) => {
 export const UserShow = (props) => (
   <Show {...props}>
     <SimpleShowLayout>
-      <TextField source="email" />
-      <TextField source="full_name" />
+      <TextField source="email" label={"user.edit.email"} />
+      <TextField source="full_name" label={"user.edit.full_name"} />
       <FunctionField
-        label="Gender"
+        label={"user.edit.gender"}
         source="gender"
         render={(record) => getGenders(record.gender)}
       />
-      <TextField source="age" />
-      <Labeled source="bugs" label="Bugs">
+      <TextField source="age" label={"user.edit.age"}/>
+      <Labeled source="bugs" label={"user.edit.bugs"}>
         <Bugs source="bugs" />
       </Labeled>
     </SimpleShowLayout>

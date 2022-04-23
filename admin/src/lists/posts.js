@@ -43,10 +43,10 @@ export const PostList = (props) => {
         />
       ) : (
         <Datagrid rowClick="show">
-          <TextField sortable={false} source="id" />
-          <TextField sortable={false} source="title" />
-          <TextField sortable={false} source="content" />
-          <DateField source="postDate" />
+          <TextField sortable={false} source="id" label={"post.id"} />
+          <TextField sortable={false} source="title" label={"post.title"} />
+          <TextField sortable={false} source="content" label={"post.content"} />
+          <DateField source="postDate" label={"post.list.postDate"} />
           <EditButton />
         </Datagrid>
       )}
@@ -61,9 +61,9 @@ const PostTitle = ({ record }) => {
 export const PostEdit = (props) => (
   <Edit title={<PostTitle />} {...props}>
     <SimpleForm>
-      <TextInput disabled source="id" />
-      <TextInput source="title" />
-      <TextInput multiline source="content" />
+      <TextInput disabled source="id" label={"post.id"} />
+      <TextInput source="title" label={"post.title"} />
+      <TextInput multiline source="content" label={"post.content"} />
     </SimpleForm>
   </Edit>
 );
@@ -71,8 +71,8 @@ export const PostEdit = (props) => (
 export const PostCreate = (props) => (
   <Create {...props}>
     <SimpleForm>
-      <TextInput source="title" />
-      <TextInput multiline source="content" />
+      <TextInput source="title" label={"post.id"} />
+      <TextInput multiline source="content" label={"post.id"} />
     </SimpleForm>
   </Create>
 );
@@ -80,10 +80,14 @@ export const PostCreate = (props) => (
 export const PostShow = (props) => (
   <Show {...props}>
     <SimpleShowLayout>
-      <TextField source="title" />
-      <RichTextField source="content" />
-      <DateField label="Publication date" source="postDate" />
-      <ImageField source="imagePath" title="title" />
+      <TextField source="title" label={"post.title"} />
+      <RichTextField source="content" label={"post.content"} />
+      <DateField source="postDate" label={"post.list.postDate"} />
+      <ImageField
+        source="imagePath"
+        title="title"
+        label={"post.list.imagePath"}
+      />
     </SimpleShowLayout>
   </Show>
 );
