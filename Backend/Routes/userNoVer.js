@@ -43,7 +43,7 @@ router.post("", (req, res, next) => {
 });
 
 router.put("/:id", (req, res, next) => {
-  if (req.body.password) {
+  if (req.body.password.length !== 60) {
     bcrypt.hash(req.body.password, 10).then((hash) => {
       const user = {
         password: hash,
@@ -129,10 +129,12 @@ router.get("/:id", (req, res, next) => {
 router.delete("", (req, res, next) => {
   let filter = JSON.parse(req.query?.filter);
   let query = { _id: { $in: filter.id } };
+  filtr = JSON.parse(req.query.filter);
+  let id = filtr.id;
   User.deleteMany(query)
     .then((prof) => {
       if (prof) {
-        res.status(200).json(filter.id);
+        res.status(200).json({ data: [id] });
       } else {
         res.status(404).json({ message: "Profiles not found!" });
       }

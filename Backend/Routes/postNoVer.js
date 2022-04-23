@@ -47,7 +47,7 @@ router.post(
       title: req.body.title,
       content: req.body.content,
       imagePath: imagePath,
-      creator: '622759cd99a7c1db81f5cfa3',
+      creator: "622759cd99a7c1db81f5cfa3",
       postDate: Date().toString(),
     });
     post
@@ -102,10 +102,12 @@ router.put(
 
 router.get("", (req, res, next) => {
   let { range, sort, filter } = req.query;
+  sort = sort ? JSON.parse(sort) : {};
+  // console.log(sort[0], sort[1]);
   range == undefined ? (range = [0, 0]) : JSON.parse(range);
   filter = JSON.parse(filter);
   Post.find(filter)
-    //.sort(sort)
+    .sort({ postDate: sort[1] })
     .skip(parseInt(range[0]))
     .limit(parseInt(range[1]) - parseInt(range[0]) + 1)
     .then((documents) => {
@@ -144,7 +146,7 @@ router.delete("", (req, res, next) => {
 
   Post.deleteMany({ _id: { $in: id } }).then((result) => {
     if (result.n > 0) {
-      res.status(200).json({ message: "Deletion successful!" });
+      res.status(200).send({ data: [id] });
     } else {
       return res.status(500).json({ data: { message: "ERROR" } });
     }
