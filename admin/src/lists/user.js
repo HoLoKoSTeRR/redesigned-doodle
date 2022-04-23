@@ -22,6 +22,7 @@ import {
   useRecordContext,
   Labeled,
   SimpleList,
+  FunctionField,
 } from "react-admin";
 import Chip from "@mui/material/Chip";
 import Stack from "@mui/material/Stack";
@@ -47,35 +48,31 @@ let bugs = [
     name: "Орфографические ошибки",
   },
   {
-    id: "invalid_field_type",
-    name: "Числовое поле принимает буквы",
-  },
-  {
     id: "required_field_error",
     name: "Отображает ошибку если не заполнено необязательное поле/не отображает если не заполнено обязательное",
-  },
-  {
-    id: "unhidden_password",
-    name: "Конфиденциальная информация (пароль) отображается в незашифрованном виде",
-  },
-  {
-    id: "inactive",
-    name: "Серые(неактивные) кнопки работают",
-  },
-  {
-    id: "not_email",
-    name: "Поле для ввода имейла примет данные, не содержащие @",
   },
   {
     id: "clear_button",
     name: "Не работают крестики очистки полей",
   },
-  {
-    id: "whrong_password",
-    name: "Система принимает слишком короткий/длинный пароль",
-  },
 ];
-
+const getGenders = (gender) => {
+  let map = new Map();
+  map.set("m", "Male");
+  map.set("f", "Female");
+  map.set("nc", "Prefer not say");
+  return map.get(gender);
+};
+const getBugs = (bugs) => {
+  let map = new Map();
+  map.set("orphography", "Орфографические ошибки");
+  map.set(
+    "required_field_error",
+    "Отображает ошибку если не заполнено необязательное поле/не отображает если не заполнено обязательное"
+  );
+  map.set("clear_button", "Не работают крестики очистки полей");
+  return map.get(bugs);
+};
 export const UserList = (props) => {
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
@@ -107,7 +104,6 @@ export const UserEdit = (props) => (
       <TextInput disabled source="id" />
       <TextInput source="full_name" validate={validateFullName} />
       <TextInput disabled label="Email" source="email" />
-      {/* <PasswordInput label="Enter new password" source="password" /> */}
       <TextInput label="Age" source="age" validate={validateAge} />
       <SelectInput
         label="Gender"
@@ -115,6 +111,7 @@ export const UserEdit = (props) => (
         choices={genders}
         validate={validateGender}
       />
+      <PasswordInput label="Enter new password" source="password" />
 
       <CheckboxGroupInput row={false} source="bugs" choices={bugs} required />
     </SimpleForm>
@@ -148,9 +145,9 @@ const Bugs = (props) => {
   const record = useRecordContext(props);
   return (
     <>
-      <Stack direction="row" spacing={1}>
+      <Stack direction="column" spacing={1}>
         {record.bugs.map((item) => (
-          <Chip key={item} label={item} />
+          <Chip key={item} label={getBugs(item)} />
         ))}{" "}
       </Stack>
     </>
@@ -161,7 +158,11 @@ export const UserShow = (props) => (
     <SimpleShowLayout>
       <TextField source="email" />
       <TextField source="full_name" />
-      <TextField source="gender" />
+      <FunctionField
+        label="Gender"
+        source="gender"
+        render={(record) => getGenders(record.gender)}
+      />
       <TextField source="age" />
       <Labeled source="bugs" label="Bugs">
         <Bugs source="bugs" />
