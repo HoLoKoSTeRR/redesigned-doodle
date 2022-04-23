@@ -69,6 +69,13 @@ export class CreatePost extends Component {
   imageHandler = (id, value, isValid) => {
     this.setState({ Post: { ...this.state.Post, [id]: value } }, () => {});
   };
+  profileData = (name) => {
+    let bugs = localStorage.getItem("profileData");
+    if (bugs) {
+      var bugsData = JSON.parse(bugs);
+    }
+    return bugsData?.bugs.includes(name);
+  };
 
   myChangeHandler = (event) => {
     let nam = event.target?.name;
@@ -90,6 +97,10 @@ export class CreatePost extends Component {
       case "bio":
         if (value.length === 0) {
           errors.bio = value.length === 0 ? "Bio is required!" : "";
+        }
+        if (value.length > 0) {
+          errors.bio =
+            value.length < 20 ? "Bio must be 20 characters long!" : "";
         }
         break;
       default:
@@ -231,6 +242,29 @@ export class CreatePost extends Component {
                 onChange={this.myChangeHandler}
               />
 
+              {this.profileData("clear_button") ? (
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary btn-sm"
+                >
+                  Очистить
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => {
+                    this.setState({
+                      Post: {
+                        ...this.state.Post,
+                        username: "",
+                      },
+                    });
+                  }}
+                >
+                  Очистить
+                </button>
+              )}
               {this.state.errors.username.length > 0 && (
                 <div className="mt-1">
                   <span className="error text-danger">
@@ -242,18 +276,55 @@ export class CreatePost extends Component {
 
             <div className="form-group">
               <label htmlFor="Bio">О себе </label>
-              <textarea
-                type="text"
-                name="bio"
-                rows="4"
-                value={this.state.Post.bio}
-                className={
-                  "form-control " + (this.state.errors.bio ? "is-invalid" : "")
-                }
-                placeholder="Введите описание"
-                required="required"
-                onChange={this.myChangeHandler}
-              />
+              {this.profileData("required_field_error") ? (
+                <textarea
+                  type="text"
+                  name="bio"
+                  rows="4"
+                  value={this.state.Post.bio}
+                  className={"form-control"}
+                  placeholder="Введите описание"
+                  onChange={this.myChangeHandler}
+                />
+              ) : (
+                <textarea
+                  type="text"
+                  name="bio"
+                  rows="4"
+                  required
+                  value={this.state.Post.bio}
+                  className={
+                    "form-control " +
+                    (this.state.errors.bio ? "is-invalid" : "")
+                  }
+                  placeholder="Введите описание"
+                  onChange={this.myChangeHandler}
+                />
+              )}
+
+              {this.profileData("clear_button") ? (
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary btn-sm"
+                >
+                  Очистить
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="btn btn-outline-secondary btn-sm"
+                  onClick={() => {
+                    this.setState({
+                      Post: {
+                        ...this.state.Post,
+                        bio: "",
+                      },
+                    });
+                  }}
+                >
+                  Очистить
+                </button>
+              )}
 
               {this.state.errors.bio.length > 0 && (
                 <div className="mt-1">

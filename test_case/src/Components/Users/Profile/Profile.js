@@ -22,12 +22,11 @@ export class Profile extends Component {
   componentDidMount() {
     let path = this.props.match.path;
     let id = this.props.match.params.id;
-
+    const storedData = localStorage.getItem("profileData");
+    console.log(path, id);
     this.setState((pre) => ({
       isloading: true,
     }));
-    const storedData = JSON.parse(localStorage.getItem("profileData"));
-
     if (!storedData && path === "/profile") {
       this.props.history.push("/createProfile");
     }
@@ -129,7 +128,6 @@ export class Profile extends Component {
       ));
     }
     let profile = this.state.user;
-    // console.log(JSON.parse(localStorage.getItem("profileData")).bugs);
     return (
       <>
         {isLoading}
@@ -140,7 +138,8 @@ export class Profile extends Component {
               <h2 className="text-black font-weight-light mb-4">
                 {profile.username}
               </h2>
-              {!(storedData.username === profile.username) && path !== "/profile" ? null : (
+              {!(storedData.username === profile.username) &&
+              path !== "/profile" ? null : (
                 <Link to={"/profile/edit/" + profile._id}>Редактировать</Link>
               )}
               <p>{profile.bio}</p>
@@ -158,11 +157,12 @@ export class Profile extends Component {
 
         <div className="container py-5 container-short">
           <h2 className="font-weight-light text-black">
-            Посты {profile.username}
+            {storedData?.bugs.includes("orphography")? "Пасты": "Посты"} {profile.username}
           </h2>
+
           <hr />
           {this.state.posts.length === 0 ? (
-            <h2 className="mt-5 text-center">Постов не найдено</h2>
+            <h2 className="mt-5 text-center">{storedData?.bugs.includes("orphography")? "Пастов": "Постов"} не найдено</h2>
           ) : null}
           <div className="row">{fetchedposts}</div>
         </div>

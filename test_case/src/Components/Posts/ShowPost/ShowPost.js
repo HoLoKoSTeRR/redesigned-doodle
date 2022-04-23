@@ -60,7 +60,6 @@ function ShowPost(props) {
                   })`,
                 }}
               >
-                By Mehul
               </Link>
             </div>
           </div>
@@ -81,9 +80,9 @@ function ShowPost(props) {
               {`${ToText(props.content.substring(0, 80))}... `}
               <span>
                 {pathname === "/mypost" ? (
-                  <Link to={"/mypost/" + props._id}>{<b>Read More</b>}</Link>
+                  <Link to={"/mypost/" + props._id}>{<b>Читать далее</b>}</Link>
                 ) : (
-                  <Link to={"/post/" + props._id}>{<b>Read More</b>}</Link>
+                  <Link to={"/post/" + props._id}>{<b>Читать далее</b>}</Link>
                 )}
               </span>
             </p>

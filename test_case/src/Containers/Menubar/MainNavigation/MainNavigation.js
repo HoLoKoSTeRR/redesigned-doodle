@@ -7,6 +7,11 @@ import SideDrawer from "../SideDrawer/SideDrawer";
 import "./MainNavigation.css";
 import img from "../../../assets/asset-1.png";
 const MainNavigation = (props) => {
+  let storedData = localStorage.getItem("profileData");
+  // storedData ? JSON.parse(storedData) : null;
+  if (storedData) {
+    storedData = JSON.parse(storedData);
+  }
   let attachedClasses = ["SideDrawer", "Close"];
 
   const [drawerIsOpen, setDrawerIsOpen] = useState(false);
@@ -21,7 +26,6 @@ const MainNavigation = (props) => {
   const closeDrawer = () => {
     setDrawerIsOpen(false);
   };
-
   return (
     <React.Fragment>
       {drawerIsOpen && <Backdrop onClick={closeDrawer} />}
@@ -46,7 +50,9 @@ const MainNavigation = (props) => {
           <span />
         </button>
         <h1 className="main-navigation__title">
-          <Link to="/">Blog Book</Link>
+          <Link to="/">
+            {storedData?.bugs.includes("orphography") ? "Blok" : "Blog"} Book
+          </Link>
         </h1>
         <nav className="main-navigation__header-nav">
           <NavLinks />

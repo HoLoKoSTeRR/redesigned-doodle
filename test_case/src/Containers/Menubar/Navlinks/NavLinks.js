@@ -1,51 +1,65 @@
-import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
-import { AuthContext } from '../../../context/auth-context'
-import './NavLinks.css';
-import { useHistory } from 'react-router-dom';
-const NavLinks = props => {
+import React, { useContext } from "react";
+import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../../context/auth-context";
+import "./NavLinks.css";
+import { useHistory } from "react-router-dom";
+const NavLinks = (props) => {
   const history = useHistory();
   const auth = useContext(AuthContext);
 
   function onLgout() {
-    console.log(history)
-    auth.logout()
-    history.push('/auth')
-
+    console.log(history);
+    auth.logout();
+    history.push("/auth");
   }
-  return <ul className="nav-links">
-    <li>
-      <NavLink to="/" exact>Домой</NavLink>
-    </li>
-    {auth.isLoggedIn && (<> <li>
-      <NavLink to="/profile">Профиль</NavLink>
-    </li>
+  let storedData = localStorage.getItem("profileData");
+  if (storedData) {
+    storedData = JSON.parse(storedData);
+  }
+  return (
+    <ul className="nav-links">
       <li>
-        <NavLink to="/mypost">Мои посты</NavLink>
+        <NavLink to="/" exact>
+          Домой
+        </NavLink>
       </li>
-      <li>
-        <NavLink to="/create">Создать пост</NavLink>
-      </li></>
-    )}
+      {auth.isLoggedIn && (
+        <>
+          {" "}
+          {storedData && (
+            <li>
+              <NavLink to="/profile">Профиль</NavLink>
+            </li>
+          )}
+          <li>
+            <NavLink to="/mypost">
+              {" "}
+              {storedData?.bugs.includes("orphography") ? "Маи" : "Мои"} посты
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to="/create">Создать пост</NavLink>
+          </li>
+        </>
+      )}
 
-
-
-    {/* <li>
+      {/* <li>
       <NavLink to="/auth">AUTHENTICATE</NavLink>
     </li> */}
 
-    {!auth.isLoggedIn && (
-      <li>
-        <NavLink to="/auth">Войти</NavLink>
-      </li>
-    )}
+      {!auth.isLoggedIn && (
+        <li>
+          <NavLink to="/auth">Войти</NavLink>
+        </li>
+      )}
 
-    {auth.isLoggedIn && (
-      <li>
-        <button onClick={onLgout}>Выйти</button>
-      </li>
-    )}
-  </ul>
+      {auth.isLoggedIn && (
+        <li>
+          <button onClick={onLgout}>Выйти</button>
+        </li>
+      )}
+    </ul>
+  );
 };
 
 export default NavLinks;
