@@ -1,0 +1,66 @@
+{
+  "name": "my-new-app",
+  "productName": "QA-App",
+  "version": "1.0.0",
+  "description": "My Electron application description",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
+  },
+  "author": "Olegas",
+  "license": "MIT",
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "QA-app",
+            "icon":"assets/icon.png"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "linux"
+          ]
+        }
+      ]
+    }
+  },
+  "build": {
+    "productName": "QA-App",
+    "appId": "com.olegas.qa-app",
+    "directories": {
+      "output": "dist"
+    },
+    "icon":"assets/icon.png",
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Development"
+    }
+  },
+  "dependencies": {
+    "electron-context-menu": "^3.1.2",
+    "electron-squirrel-startup": "^1.0.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.63",
+    "@electron-forge/maker-deb": "^6.0.0-beta.63",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.63",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.63",
+    "@electron-forge/maker-zip": "^6.0.0-beta.63",
+    "electron": "18.1.0"
+  }
+}
