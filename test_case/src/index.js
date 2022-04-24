@@ -19,8 +19,8 @@ setInterval(async () => {
     });
 }, 60e3);
 // axios.defaults.baseURL = "https://zany-periodic-fisherman.glitch.me/api";
-axios.defaults.baseURL = "http://localhost:3001/api";
-// axios.defaults.baseURL = "https://arcane-anchorage-00164.herokuapp.com/api";
+// axios.defaults.baseURL = "http://localhost:3001/api";
+axios.defaults.baseURL = "https://arcane-anchorage-00164.herokuapp.com/api";
 let userData = JSON.parse(localStorage.getItem("userData"));
 let token;
 if (userData) {
